@@ -4,4 +4,4 @@ else
 subs:=leapyear hello_world_mocked
 endif
 
-include ../recurse.mk
+include ../../../../recurse.mk

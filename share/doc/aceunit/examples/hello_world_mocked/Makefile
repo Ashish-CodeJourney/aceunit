@@ -1,6 +1,6 @@
-ACEUNIT_HOME=../../
+ACEUNIT_HOME=../../../../../
 ACEUNIT:=$(ACEUNIT_HOME)/bin/aceunit
-CPPFLAGS:=-W -Wall -pedantic -I../../include -MMD
+CPPFLAGS:=-W -Wall -pedantic -I$(ACEUNIT_HOME)include -MMD
 ACEUNIT_LIBRARY:=$(ACEUNIT_HOME)/lib/libaceunit-fork.a
 ifeq "$(shell uname -s)" "Darwin"
 OBJCOPY:=llvm-objcopy
