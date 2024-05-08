@@ -19,6 +19,7 @@ compiler-test-%:
 PREFIX?=/usr/local/
 MANDIR?=share/man
 VERSION:=$(shell cat VERSION)
+SKIP_EXAMPLES?=
 
 FILES_TO_INSTALL:=\
     $(DESTDIR)$(PREFIX)/bin/aceunit \
@@ -31,7 +32,7 @@ FILES_TO_INSTALL:=\
     $(DESTDIR)$(PREFIX)/share/aceunit/nm.ac \
     $(DESTDIR)$(PREFIX)/share/aceunit/objdump.ac \
     $(DESTDIR)$(PREFIX)/share/aceunit/readelf.ac \
-    $(DESTDIR)$(PREFIX)/share/doc/aceunit/copyright \
+    $(if $(SKIP_EXAMPLES),,$(addprefix $(DESTDIR)$(PREFIX)/,$(shell find share/doc/aceunit -type f))) \
     $(DESTDIR)$(PREFIX)/$(MANDIR)/man1/aceunit.1 \
     $(DESTDIR)$(PREFIX)/$(MANDIR)/man3/aceunit.3
 
