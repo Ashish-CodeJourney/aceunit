@@ -151,13 +151,26 @@ loadFixtures() {
 
 loadFixture() {
     file=$1
-    basename=${file%.o}
+    basename=$(getBasename $file)
     symbols=( $(getSymbols $file $prefix) )
      beforeAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeAll" )
       afterAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}afterAll" )
     beforeEach[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeEach" )
      afterEach[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}afterEach" )
      testcases[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}test" )
+}
+
+getBasename() {
+    result=${1##*/}
+    echo ${result%.o}
+}
+
+fixtureName() {
+    echo fixture_$1
+}
+
+testcasesName() {
+    echo testcases_$1
 }
 
 generateHeader() {
@@ -169,7 +182,7 @@ END
 
 generateExterns() {
     for file in $fixtures; do
-        basename=${file%.o}
+        basename=$(getBasename $file)
         if [ -z "${testcases[$basename]}" ]; then echo "$file: warning: No test cases found." 1>&2; fi
         for extern in ${beforeAll[$basename]} ${afterAll[$basename]} ${beforeEach[$basename]} ${afterEach[$basename]} ${testcases[$basename]}; do
             echo "extern void $extern(void);"
@@ -179,20 +192,20 @@ generateExterns() {
 
 generateFxitureStructures() {
     for file in $fixtures; do
-        basename=${file%.o}
+        basename=$(getBasename $file)
         echo
-        echo "const aceunit_func_t testcases_${basename}[] = {"
+        echo "const aceunit_func_t $(testcasesName $basename)[] = {"
         for testcase in ${testcases[$basename]}; do echo "    $testcase,"; done
         cat << END
     NULL,
 };
 
-const AceUnit_Fixture_t fixture_$basename = {
+const AceUnit_Fixture_t $(fixtureName $basename) = {
     ${beforeAll[$basename]:-NULL},
     ${afterAll[$basename]:-NULL},
     ${beforeEach[$basename]:-NULL},
     ${afterEach[$basename]:-NULL},
-    testcases_$basename,
+    $(testcasesName $basename),
 };
 
 END
@@ -204,8 +217,8 @@ generateFixtureTable() {
 const AceUnit_Fixture_t *${name}[] = {
 END
     for file in $fixtures; do
-        basename=${file%.o}
-        echo "    &fixture_$basename,"
+        basename=$(getBasename $file)
+        echo "    &$(fixtureName $basename),"
     done
     cat <<END
     NULL,

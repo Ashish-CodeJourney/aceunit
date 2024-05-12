@@ -35,30 +35,30 @@ libaceunit-setjmp.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_SetJmpRunner.o
 
 test: test_SimpleRunner test_AbortRunner test_ForkRunner test_SetJmpRunner
 
-test_SimpleRunner: AceUnit_SimpleRunner_Test
-	./AceUnit_SimpleRunner_Test
+test_SimpleRunner: test/AceUnit_SimpleRunner_Test
+	test/AceUnit_SimpleRunner_Test
 
-test_AbortRunner: AceUnit_AbortRunner_Test
-	./AceUnit_AbortRunner_Test
+test_AbortRunner: test/AceUnit_AbortRunner_Test
+	test/AceUnit_AbortRunner_Test
 
-test_ForkRunner: AceUnit_ForkRunner_Test
-	./AceUnit_ForkRunner_Test
+test_ForkRunner: test/AceUnit_ForkRunner_Test
+	test/AceUnit_ForkRunner_Test
 
-test_SetJmpRunner: AceUnit_SetJmpRunner_Test
-	./AceUnit_SetJmpRunner_Test
+test_SetJmpRunner: test/AceUnit_SetJmpRunner_Test
+	test/AceUnit_SetJmpRunner_Test
 
-AceUnit_SimpleRunner_Test: AceUnit_SimpleRunner_Test.o libaceunit-simple.a
-AceUnit_AbortRunner_Test: AceUnit_AbortRunner_Test.o AceUnit_AbortRunner_Fixture.o libaceunit-abort.a
-AceUnit_ForkRunner_Test: AceUnit_ForkRunner_Test.o AceUnit_ForkRunner_Fixture.o libaceunit-fork.a
-AceUnit_SetJmpRunner_Test: AceUnit_SetJmpRunner_Test.o AceUnit_SetJmpRunner_Fixture.o libaceunit-setjmp.a
+test/AceUnit_SimpleRunner_Test: test/AceUnit_SimpleRunner_Test.o libaceunit-simple.a
+test/AceUnit_AbortRunner_Test: test/AceUnit_AbortRunner_Test.o test/AceUnit_AbortRunner_Fixture.o libaceunit-abort.a
+test/AceUnit_ForkRunner_Test: test/AceUnit_ForkRunner_Test.o test/AceUnit_ForkRunner_Fixture.o libaceunit-fork.a
+test/AceUnit_SetJmpRunner_Test: test/AceUnit_SetJmpRunner_Test.o test/AceUnit_SetJmpRunner_Fixture.o libaceunit-setjmp.a
 
-%_Fixture.c: %_Test.o
+test/%_Fixture.c: test/%_Test.o
 	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PHONY: clean
 ## clean:	Removes all generated files.
 clean::
-	$(RM) *.[adios] *.bc AceUnit_*Runner_Test
+	$(RM) *.[adios] test/*.[adios] *.bc test/AceUnit_*Runner_Test
 
 .PHONY: help
 ## help:	Print this help text.
