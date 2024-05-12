@@ -9,11 +9,11 @@ test: export LLVM_PROFILE_FILE=$^.profraw
 
 all: coverage-report
 
-coverage-report: AceUnit_SimpleRunner_Test.profdata AceUnit_SetJmpRunner_Test.profdata AceUnit_AbortRunner_Test.profdata AceUnit_ForkRunner_Test.profdata
-	llvm-cov show ./AceUnit_SimpleRunner_Test -instr-profile=AceUnit_SimpleRunner_Test.profdata
-	llvm-cov show ./AceUnit_SetJmpRunner_Test -instr-profile=AceUnit_SetJmpRunner_Test.profdata
-	llvm-cov show ./AceUnit_AbortRunner_Test -instr-profile=AceUnit_AbortRunner_Test.profdata
-	llvm-cov show ./AceUnit_ForkRunner_Test -instr-profile=AceUnit_ForkRunner_Test.profdata
+coverage-report: test/AceUnit_SimpleRunner_Test.profdata test/AceUnit_SetJmpRunner_Test.profdata test/AceUnit_AbortRunner_Test.profdata test/AceUnit_ForkRunner_Test.profdata
+	llvm-cov show test/AceUnit_SimpleRunner_Test -instr-profile=test/AceUnit_SimpleRunner_Test.profdata
+	llvm-cov show test/AceUnit_SetJmpRunner_Test -instr-profile=test/AceUnit_SetJmpRunner_Test.profdata
+	llvm-cov show test/AceUnit_AbortRunner_Test -instr-profile=test/AceUnit_AbortRunner_Test.profdata
+	llvm-cov show test/AceUnit_ForkRunner_Test -instr-profile=test/AceUnit_ForkRunner_Test.profdata
 
 %.profdata: %.profraw
 	llvm-profdata merge -sparse $^ -o $@
@@ -21,5 +21,11 @@ coverage-report: AceUnit_SimpleRunner_Test.profdata AceUnit_SetJmpRunner_Test.pr
 %.profraw: %
 	LLVM_PROFILE_FILE=$@ ./$*
 
+test/AceUnit_SimpleRunner_Test.o test/AceUnit_SetJmpRunner_Test.o test/AceUnit_AbortRunner_Test.o test/AceUnit_ForkRunner_Test.o: | test/
+
+test/:
+	mkdir -p test/
+
 clean::
 	$(RM) *.profraw *.profdata
+	$(RM) -r test/

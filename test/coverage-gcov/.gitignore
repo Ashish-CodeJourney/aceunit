@@ -1,4 +1,6 @@
-*_Test
 *.gcno
 *.gcda
 *.gcov
+coverage-report/
+test/
+coverage.info
