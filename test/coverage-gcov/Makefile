@@ -14,11 +14,6 @@ coverage-report: test/AceUnit_SimpleRunner.c.gcov test/AceUnit_SetJmpRunner.c.gc
 %.gcov:
 	gcov $*
 
-test/AceUnit_SimpleRunner_Test.o test/AceUnit_SetJmpRunner_Test.o test/AceUnit_AbortRunner_Test.o test/AceUnit_ForkRunner_Test.o: | test/
-
-test/:
-	mkdir -p test/
-
 clean::
 	$(RM) *.gcno *.gcov *.gcda coverage.info
 	$(RM) -r test/ coverage-report

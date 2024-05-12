@@ -21,11 +21,6 @@ coverage-report: test/AceUnit_SimpleRunner_Test.profdata test/AceUnit_SetJmpRunn
 %.profraw: %
 	LLVM_PROFILE_FILE=$@ ./$*
 
-test/AceUnit_SimpleRunner_Test.o test/AceUnit_SetJmpRunner_Test.o test/AceUnit_AbortRunner_Test.o test/AceUnit_ForkRunner_Test.o: | test/
-
-test/:
-	mkdir -p test/
-
 clean::
 	$(RM) *.profraw *.profdata
 	$(RM) -r test/
