@@ -61,7 +61,7 @@
   > not if there is nothing left to add
   > but if there is nothing left to remove.
 
-  <figcaption>vu2015  Antoine de Saint-Exupéry</figcaption>
+  <figcaption>―  Antoine de Saint-Exupéry</figcaption>
 <figure>
 
 <figure>
